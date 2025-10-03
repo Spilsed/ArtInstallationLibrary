@@ -40,6 +40,7 @@ class MotorController {
         static constexpr int INITIAL_VELOCITY_REGISTER_START = 0x0089;
         static constexpr int MAX_VELOCITY_REGISTER_START = 0x008A;
 
+        bool readFlag(int address, bool &value);
         bool read8BitRegister(int address, int8_t &value);
         bool write8BitRegister(int address, int8_t value);
         bool read32BitRegister(int address, int32_t &value);

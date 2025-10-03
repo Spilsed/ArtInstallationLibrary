@@ -41,6 +41,24 @@ bool MotorController::connect() {
     return true;
 }
 
+bool MotorController::readFlag(int address, bool &value) {
+    if (!ctx_) {
+        logError("Cannot read flag: Not connected");
+        return false;
+    }
+
+    uint8_t status[1];
+    int rc = modbus_read_input_bits(ctx_, address, 1, status);
+
+    if (rc == -1) {
+        logError("Failed to read flag status");
+        return false;
+    }
+
+    value = (status[0] == 1);
+    return true;
+}
+
 bool MotorController::read8BitRegister(int address, int8_t &value) {
     if (!ctx_) {
         logError("Cannot read: Not connected");
