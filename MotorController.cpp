@@ -28,7 +28,7 @@ bool MotorController::connect() {
 
     modbus_set_slave(ctx_, slave_id_);
 
-    std::cout << "[INFO] Attemtping to connect to " << ip_address_ << ":" << port_ << "..." << std::endl;
+    std::cout << "[INFO] Attemtping to connect to " << ip_address_ << ":" << port_ << std::endl;
 
     if (modbus_connect(ctx_) == -1) {
         logError("Modbus connection failed");
