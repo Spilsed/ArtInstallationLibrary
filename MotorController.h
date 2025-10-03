@@ -12,6 +12,7 @@ class MotorController {
 
         bool connect();
         bool setAbsolutePosition(int32_t target_position);
+        bool isMoving();
     
     private:
         modbus_t *ctx_ = nullptr;
@@ -20,6 +21,7 @@ class MotorController {
         int slave_id_;
 
         static constexpr int ABS_POSITION_REGISTER_START = 0x0057;
+        static constexpr int MOVING_FLAG_ADDRESS = 0x004A;
 
         bool write32BitRegister(int address, int32_t value);
         void logError(const std::string &message) const;

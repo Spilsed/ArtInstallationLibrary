@@ -15,12 +15,16 @@ int main() {
 
     if (motor.setAbsolutePosition(pos_1)) {
         std::cout << "Successfully commanded move to " << pos_1 << std::endl << "Waiting for move to complete..." << std::endl;
+        std::cout << "Moving flag: " << motor.isMoving() << std::endl;
         sleep(5);
+        std::cout << "Moving flag: " << motor.isMoving() << std::endl;
     }
 
     if (motor.setAbsolutePosition(pos_2)) {
         std::cout << "Successfully commanded move to " << pos_2 << std::endl << "Waiting for move to complete..." << std::endl;
+        std::cout << "Moving flag: " << motor.isMoving() << std::endl;
         sleep(5);
+        std::cout << "Moving flag: " << motor.isMoving() << std::endl;
     }
 
     std::cout << "Motor controll sequence finished" << std::endl;

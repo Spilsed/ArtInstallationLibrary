@@ -68,6 +68,24 @@ bool MotorController::setAbsolutePosition(int32_t target_position) {
     return write32BitRegister(ABS_POSITION_REGISTER_START, target_position);
 }
 
+bool MotorController::isMoving() {
+    if (!ctx_) {
+        logError("Cannot check status: Not connected");
+        return false;
+    }
+
+    uint8_t status[1];
+
+    int rc = modbus_read_input_bits(ctx_, MOVING_FLAG_ADDRESS, 1, status);
+
+    if (rc == -1) {
+        logError("Failed to read Busy Flag status");
+        return false;
+    }
+
+    return (status[0] == 1);
+}
+
 void MotorController::logError(const std::string &message) const {
     if (ctx_) {
         std::cerr << "[ERROR] " << message << ": " << modbus_strerror(errno) << std::endl;
