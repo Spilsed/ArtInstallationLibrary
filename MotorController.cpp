@@ -120,6 +120,26 @@ int32_t MotorController::getCurrentVelocity() {
     }
 }
 
+int32_t MotorController::getInitialVelocity() {
+    int32_t initial_velocity;
+
+    if (read32BitRegister(INITIAL_VELOCITY_REGISTER_START, initial_velocity)) {
+        return initial_velocity;
+    } else {
+        return 0;
+    }
+}
+
+int32_t MotorController::getMaxVelocity() {
+    int32_t max_velocity;
+
+    if (read32BitRegister(MAX_VELOCITY_REGISTER_START, max_velocity)) {
+        return max_velocity;
+    } else {
+        return 0;
+    }
+}
+
 bool MotorController::setAbsolutePosition(int32_t target_position) {
     std::cout << "[INFO] Setting target position to: " << target_position << std::endl;
     return write32BitRegister(ABS_POSITION_REGISTER_START, target_position);

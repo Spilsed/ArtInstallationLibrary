@@ -15,6 +15,8 @@ class MotorController {
 
         int32_t getCurrentPosition();
         int32_t getCurrentVelocity();
+        int32_t getInitialVelocity();
+        int32_t getMaxVelocity();
 
         bool setAbsolutePosition(int32_t target_position);
         bool saveSettings();
