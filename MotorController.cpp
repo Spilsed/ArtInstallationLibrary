@@ -41,6 +41,44 @@ bool MotorController::connect() {
     return true;
 }
 
+bool MotorController::read8BitRegister(int address, int8_t &value) {
+    if (!ctx_) {
+        logError("Cannot read: Not connected");
+        return false;
+    }
+
+    uint8_t data[1];
+    int rc = modbus_read_bits(ctx_, address, 1, data);
+
+    if (rc == -1) {
+        logError("Failed to read 8-bit register");
+        return false;
+    }
+
+    value = (int8_t)data[0];
+
+    return true;
+}
+
+bool MotorController::write8BitRegister(int address, int8_t value) {
+    if (!ctx_) {
+        logError("Cannot write: Not connected");
+        return false;
+    }
+
+    uint8_t data[1];
+    data[0] = (uint8_t)value;
+
+    int rc = modbus_write_bits(ctx_, address, 1, data);
+
+    if (rc == -1) {
+        logError("Failed to write 8-bit register");
+        return false;
+    }
+
+    return true;
+}
+
 bool MotorController::read32BitRegister(int address, int32_t &value) {
     if (!ctx_) {
         logError("Cannot read: Not connected");
