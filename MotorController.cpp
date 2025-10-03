@@ -41,6 +41,25 @@ bool MotorController::connect() {
     return true;
 }
 
+bool MotorController::read32BitRegister(int address, int32_t &value) {
+    if (!ctx_) {
+        logError("Cannot read: Not connected");
+        return false;
+    }
+
+    uint16_t data[2];
+    int rc = modbus_read_registers(ctx_, address, 2, data);
+
+    if (rc == -1) {
+        logError("Failed to read 32-bit registers");
+        return false;
+    }
+
+    value = (int32_t)(((uint32_t)data[0] << 16) | data[1]);
+
+    return true;
+}
+
 bool MotorController::write32BitRegister(int address, int32_t value) {
     if (!ctx_) {
         logError("Cannot write: Not connected");
