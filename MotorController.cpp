@@ -1,5 +1,6 @@
 #include "MotorController.h"
 #include <iostream>
+#include <sstream> 
 #include <fstream>
 #include <unordered_map>
 #include <functional>
@@ -312,9 +313,26 @@ bool MotorController::setMaxVelocity(int32_t max_velocity) {
 }
 
 void MotorController::logError(const std::string &message) const {
+    std::stringstream stream;
+
     if (ctx_) {
-        std::cerr << "[ERROR] " << message << ": " << modbus_strerror(errno) << std::endl;
+        stream << message << ": " << modbus_strerror(errno) << std::endl;
     } else {
-        std::cerr << "[ERROR] " << message << std::endl;
+        stream << message << std::endl;
     }
+
+    logError(stream);
+}
+
+void MotorController::logError(std::stringstream &message_stream) const {
+    std::string stream_string;
+    message_stream >> stream_string;
+
+    std::cerr << "[ERROR] " << stream_string;
+
+    if (ctx_) {
+        std::cerr << ": " << modbus_strerror(errno) << std::endl;
+    }
+
+    std::cerr << std::endl;
 }

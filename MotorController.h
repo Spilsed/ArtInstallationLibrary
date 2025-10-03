@@ -50,7 +50,9 @@ class MotorController {
         bool write8BitRegister(int address, int8_t value);
         bool read32BitRegister(int address, int32_t &value) const;
         bool write32BitRegister(int address, int32_t value);
+
         void logError(const std::string &message) const;
+        void logError(std::stringstream &message_stream) const;
 };
 
 #endif
