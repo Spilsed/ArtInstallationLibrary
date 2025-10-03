@@ -5,6 +5,8 @@
 int main() {
     MotorController motor("192.168.33.1");
 
+    motor.loadProfile("./LMD_P42.toml");
+
     if (!motor.connect()) {
         std::cerr << "Application exited due to failed connection" << std::endl;
         return 1;

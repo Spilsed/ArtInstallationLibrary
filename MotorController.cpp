@@ -1,5 +1,8 @@
 #include "MotorController.h"
 #include <iostream>
+#include <fstream>
+#include <unordered_map>
+#include <functional>
 #include <errno.h>
 
 MotorController::MotorController(const std::string &ip_address, int port, int slave_id) {
@@ -38,6 +41,71 @@ bool MotorController::connect() {
     }
 
     std::cout << "[INFO] Successfully connected to motor" << std::endl;
+    return true;
+}
+
+bool MotorController::loadProfile(const std::string &profile_path) {
+    std::ifstream file(profile_path);
+
+    if (!file.is_open()) {
+        logError("Couldn't open the profile file");
+        return false;
+    }
+
+    std::string text;
+    std::string current_table = "";
+    std::string current_key = "";
+    while (file >> text) {
+        if (text[0] == '[') {
+            current_table = text;
+            continue;
+        }
+
+        if (current_key == "") {
+            current_key = text;
+            continue;
+        }
+
+        if (text[0] == '=') {
+            file >> text;
+        }
+
+        static const std::unordered_map<std::string, std::function<void(const std::string&)>> key_handlers = {
+            {"read-axis-velocity", [&](const std::string& val_text) {
+                READ_AXIS_VELOCITY_START = std::stoul(val_text, nullptr, 16);
+            }},
+            {"microstep-resolution", [&](const std::string& val_text) {
+                MICROSTEP_RESOLUTION_ADDRESS = std::stoul(val_text, nullptr, 16);
+            }},
+            {"moving-flag", [&](const std::string& val_text) {
+                MOVING_FLAG_ADDRESS = std::stoul(val_text, nullptr, 16);
+            }},
+            {"position", [&](const std::string& val_text) {
+                ABS_POSITION_REGISTER_START = std::stoul(val_text, nullptr, 16);
+            }},
+            {"save-settings", [&](const std::string& val_text) {
+                SAVE_SETTINGS_REGISTER = std::stoul(val_text, nullptr, 16);
+            }},
+            {"initial-velocity", [&](const std::string& val_text) {
+                INITIAL_VELOCITY_REGISTER_START = std::stoul(val_text, nullptr, 16);
+            }},
+            {"max-velocity", [&](const std::string& val_text) {
+                MAX_VELOCITY_REGISTER_START = std::stoul(val_text, nullptr, 16);
+            }}
+        };
+
+        if (current_table == "[registers]") {
+            auto it = key_handlers.find(current_key);
+            if (it != key_handlers.end()) {
+                it->second(text);
+            } else {
+                std::cerr << "[Warning] Unknown configuration key: " << current_key << std::endl;
+            }
+        }
+
+        current_key = "";
+    }
+
     return true;
 }
 

@@ -11,6 +11,7 @@ class MotorController {
         ~MotorController();
 
         bool connect();
+        bool loadProfile(const std::string &profile_path);
 
         bool isMoving();
 
@@ -32,14 +33,14 @@ class MotorController {
         int port_;
         int slave_id_;
 
-        static constexpr int READ_AXIS_VELOCITY_START = 0x0085;
+        int READ_AXIS_VELOCITY_START = 0x0085;
 
-        static constexpr int MICROSTEP_RESOLUTION_ADDRESS = 0x0048;
-        static constexpr int MOVING_FLAG_ADDRESS = 0x004A;
-        static constexpr int ABS_POSITION_REGISTER_START = 0x0057;
-        static constexpr int SAVE_SETTINGS_REGISTER = 0x0076;
-        static constexpr int INITIAL_VELOCITY_REGISTER_START = 0x0089;
-        static constexpr int MAX_VELOCITY_REGISTER_START = 0x008A;
+        int MICROSTEP_RESOLUTION_ADDRESS = 0x0048;
+        int MOVING_FLAG_ADDRESS = 0x004A;
+        int ABS_POSITION_REGISTER_START = 0x0057;
+        int SAVE_SETTINGS_REGISTER = 0x0076;
+        int INITIAL_VELOCITY_REGISTER_START = 0x0089;
+        int MAX_VELOCITY_REGISTER_START = 0x008A;
 
         bool readFlag(int address, bool &value) const;
         bool read8BitRegister(int address, int8_t &value) const;
