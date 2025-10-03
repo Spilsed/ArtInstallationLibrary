@@ -70,8 +70,8 @@ bool MotorController::setAbsolutePosition(int32_t target_position) {
 
 void MotorController::logError(const std::string &message) const {
     if (ctx_) {
-        std::cerr << "[ERROR]" << message << ": " << modbus_strerror(errno) << std::endl;
+        std::cerr << "[ERROR] " << message << ": " << modbus_strerror(errno) << std::endl;
     } else {
-        std::cerr << "[ERROR]" << message << std::endl;
+        std::cerr << "[ERROR] " << message << std::endl;
     }
 }
