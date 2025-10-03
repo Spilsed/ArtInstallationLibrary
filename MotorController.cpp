@@ -125,6 +125,26 @@ bool MotorController::setAbsolutePosition(int32_t target_position) {
     return write32BitRegister(ABS_POSITION_REGISTER_START, target_position);
 }
 
+bool MotorController::saveSettings() {
+    if (!ctx_) {
+        logError("Cannot save settings: Not connected");
+        return false;
+    }
+
+    std::cout << "[INFO] Saving all parameters" << std::endl;
+
+    int rc = modbus_write_register(ctx_, SAVE_SETTINGS_REGISTER, 1);
+
+    if (rc == -1) {
+        logError("Failed to write to Save Settings register");
+        return false;
+    }
+
+    std::cout << "[INFO] Save command successfuly" << std::endl;
+
+    return true;
+}
+
 bool MotorController::setInitialVelocity(int32_t initial_velocity) {
     std::cout << "[INFO] Setting initial velocity to: " << initial_velocity << std::endl;
     return write32BitRegister(INITIAL_VELOCITY_REGISTER_START, initial_velocity);

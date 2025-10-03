@@ -17,6 +17,7 @@ class MotorController {
         int32_t getCurrentVelocity();
 
         bool setAbsolutePosition(int32_t target_position);
+        bool saveSettings();
         bool setInitialVelocity(int32_t inital_velocity);
         bool setMaxVelocity(int32_t max_velocity);
     
@@ -30,6 +31,7 @@ class MotorController {
 
         static constexpr int MOVING_FLAG_ADDRESS = 0x004A;
         static constexpr int ABS_POSITION_REGISTER_START = 0x0057;
+        static constexpr int SAVE_SETTINGS_REGISTER = 0x0076;
         static constexpr int INITIAL_VELOCITY_REGISTER_START = 0x0089;
         static constexpr int MAX_VELOCITY_REGISTER_START = 0x008A;
 
