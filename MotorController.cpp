@@ -63,11 +63,6 @@ bool MotorController::write32BitRegister(int address, int32_t value) {
     return true;
 }
 
-bool MotorController::setAbsolutePosition(int32_t target_position) {
-    std::cout << "[INFO] Setting target position to: " << target_position << std::endl;
-    return write32BitRegister(ABS_POSITION_REGISTER_START, target_position);
-}
-
 bool MotorController::isMoving() {
     if (!ctx_) {
         logError("Cannot check status: Not connected");
@@ -84,6 +79,21 @@ bool MotorController::isMoving() {
     }
 
     return (status[0] == 1);
+}
+
+bool MotorController::setAbsolutePosition(int32_t target_position) {
+    std::cout << "[INFO] Setting target position to: " << target_position << std::endl;
+    return write32BitRegister(ABS_POSITION_REGISTER_START, target_position);
+}
+
+bool MotorController::setInitialVelocity(int32_t initial_velocity) {
+    std::cout << "[INFO] Setting initial velocity to: " << initial_velocity << std::endl;
+    return write32BitRegister(INITIAL_VELOCITY_REGISTER_START, initial_velocity);
+}
+
+bool MotorController::setMaxVelocity(int32_t max_velocity) {
+    std::cout << "[INFO] Setting initial velocity to: " << max_velocity << std::endl;
+    return write32BitRegister(MAX_VELOCITY_REGISTER_START, max_velocity);
 }
 
 void MotorController::logError(const std::string &message) const {
