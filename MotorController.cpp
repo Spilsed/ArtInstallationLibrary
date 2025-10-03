@@ -73,7 +73,7 @@ bool MotorController::loadProfile(const std::string &profile_path) {
             file >> text;
         }
 
-        static const std::unordered_map<std::string, std::function<void(const std::string&)>> register_key_handlers = {
+        static const std::unordered_map<std::string, std::function<void(const std::string&)>> registers_key_handlers = {
             {"read-axis-velocity", [&](const std::string& val_text) {
                 READ_AXIS_VELOCITY_START = std::stoul(val_text, nullptr, 16);
             }},
@@ -97,9 +97,17 @@ bool MotorController::loadProfile(const std::string &profile_path) {
             }}
         };
 
+        static const std::unordered_map<std::string, std::function<void(const std::string&)>> limits_key_handlers = {
+            {"max-velocity", [&](const std::string& val_text) {
+                MAX_VELOCITY = std::stoi(val_text);
+            }},
+        };
+
         std::unordered_map<std::string, std::function<void(const std::string&)>> handlers;
         if (current_table == "[registers]") {
-            handlers = register_key_handlers;
+            handlers = registers_key_handlers;
+        } else if (current_table == "[limits]") {
+            handlers = limits_key_handlers;
         } else {
             continue;
         }
@@ -304,11 +312,43 @@ bool MotorController::saveSettings() {
 
 bool MotorController::setInitialVelocity(int32_t initial_velocity) {
     std::cout << "[INFO] Setting initial velocity to: " << initial_velocity << std::endl;
+
+    int32_t current_max_velocity = getMaxVelocity();
+
+    std::stringstream error_stream;
+    if (initial_velocity < 1) {
+        error_stream << "Attempted to set initial velocity to " << initial_velocity << ", minimum value is " << 1;
+        logError(error_stream);
+        
+        return false;
+    } else if (initial_velocity > current_max_velocity - 1) {
+        error_stream << "Attempted to set initial velocity to " << initial_velocity << ", maximum value is " << current_max_velocity - 1;
+        logError(error_stream);
+        
+        return false;
+    }
+
     return write32BitRegister(INITIAL_VELOCITY_REGISTER_START, initial_velocity);
 }
 
 bool MotorController::setMaxVelocity(int32_t max_velocity) {
     std::cout << "[INFO] Setting initial velocity to: " << max_velocity << std::endl;
+
+    int32_t current_initial_velocity = getInitialVelocity();
+
+    std::stringstream error_stream;
+    if (max_velocity < current_initial_velocity + 1) {
+        error_stream << "Attempted to set max velocity to " << max_velocity << ", the minimum value is " << current_initial_velocity + 1;
+        logError(error_stream);
+
+        return false;
+    } else if (max_velocity > MAX_VELOCITY) {
+        error_stream << "Attempted to set max velocity to " << max_velocity << ", the maximum value is " << MAX_VELOCITY;
+        logError(error_stream);
+
+        return false;
+    }
+
     return write32BitRegister(MAX_VELOCITY_REGISTER_START, max_velocity);
 }
 

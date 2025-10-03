@@ -43,6 +43,8 @@ class MotorController {
         int INITIAL_VELOCITY_REGISTER_START;
         int MAX_VELOCITY_REGISTER_START;
 
+        int MAX_VELOCITY;
+
         bool loadProfile(const std::string &profile_path);
 
         bool readFlag(int address, bool &value) const;

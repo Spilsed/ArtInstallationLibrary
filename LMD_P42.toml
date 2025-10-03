@@ -7,3 +7,6 @@ position = 0x0057
 save-settings = 0x0076
 initial-velocity = 0x0089
 max-velocity = 0x008A
+
+[limits]
+max-velocity = 2560000
