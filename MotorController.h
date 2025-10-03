@@ -4,14 +4,15 @@
 #include <string>
 #include <cstdint>
 #include <modbus/modbus.h>
+#include <unordered_map>
+#include <functional>
 
 class MotorController {
     public:
-        MotorController(const std::string &ip_address, int port = 502, int slave_id = 1);
+        MotorController(const std::string &profile_path, const std::string &ip_address, int port = 502, int slave_id = 1);
         ~MotorController();
 
         bool connect();
-        bool loadProfile(const std::string &profile_path);
 
         bool isMoving();
 
@@ -33,14 +34,16 @@ class MotorController {
         int port_;
         int slave_id_;
 
-        int READ_AXIS_VELOCITY_START = 0x0085;
+        int READ_AXIS_VELOCITY_START;
 
-        int MICROSTEP_RESOLUTION_ADDRESS = 0x0048;
-        int MOVING_FLAG_ADDRESS = 0x004A;
-        int ABS_POSITION_REGISTER_START = 0x0057;
-        int SAVE_SETTINGS_REGISTER = 0x0076;
-        int INITIAL_VELOCITY_REGISTER_START = 0x0089;
-        int MAX_VELOCITY_REGISTER_START = 0x008A;
+        int MICROSTEP_RESOLUTION_ADDRESS;
+        int MOVING_FLAG_ADDRESS;
+        int ABS_POSITION_REGISTER_START;
+        int SAVE_SETTINGS_REGISTER;
+        int INITIAL_VELOCITY_REGISTER_START;
+        int MAX_VELOCITY_REGISTER_START;
+
+        bool loadProfile(const std::string &profile_path);
 
         bool readFlag(int address, bool &value) const;
         bool read8BitRegister(int address, int8_t &value) const;

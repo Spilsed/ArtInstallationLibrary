@@ -5,10 +5,12 @@
 #include <functional>
 #include <errno.h>
 
-MotorController::MotorController(const std::string &ip_address, int port, int slave_id) {
+MotorController::MotorController(const std::string &profile_path, const std::string &ip_address, int port, int slave_id) {
     ip_address_ = ip_address;
     port_ = port;
     slave_id_ = slave_id;
+    
+    loadProfile(profile_path);
 }
 
 MotorController::~MotorController() {
@@ -70,7 +72,7 @@ bool MotorController::loadProfile(const std::string &profile_path) {
             file >> text;
         }
 
-        static const std::unordered_map<std::string, std::function<void(const std::string&)>> key_handlers = {
+        static const std::unordered_map<std::string, std::function<void(const std::string&)>> register_key_handlers = {
             {"read-axis-velocity", [&](const std::string& val_text) {
                 READ_AXIS_VELOCITY_START = std::stoul(val_text, nullptr, 16);
             }},
@@ -94,13 +96,18 @@ bool MotorController::loadProfile(const std::string &profile_path) {
             }}
         };
 
+        std::unordered_map<std::string, std::function<void(const std::string&)>> handlers;
         if (current_table == "[registers]") {
-            auto it = key_handlers.find(current_key);
-            if (it != key_handlers.end()) {
-                it->second(text);
-            } else {
-                std::cerr << "[Warning] Unknown configuration key: " << current_key << std::endl;
-            }
+            handlers = register_key_handlers;
+        } else {
+            continue;
+        }
+
+        auto it = handlers.find(current_key);
+        if (it != handlers.end()) {
+            it->second(text);
+        } else {
+            std::cerr << "[Warning] Unknown configuration key: " << current_key << std::endl;
         }
 
         current_key = "";
