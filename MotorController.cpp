@@ -73,7 +73,7 @@ bool MotorController::loadProfile(const std::string &profile_path) {
             file >> text;
         }
 
-        static const std::unordered_map<std::string, std::function<void(const std::string&)>> registers_key_handlers = {
+        static const std::unordered_map<std::string, std::function<void (const std::string&)>> registers_key_handlers = {
             {"read-axis-velocity", [&](const std::string& val_text) {
                 READ_AXIS_VELOCITY_START = std::stoul(val_text, nullptr, 16);
             }},
@@ -97,13 +97,13 @@ bool MotorController::loadProfile(const std::string &profile_path) {
             }}
         };
 
-        static const std::unordered_map<std::string, std::function<void(const std::string&)>> limits_key_handlers = {
+        static const std::unordered_map<std::string, std::function<void (const std::string&)>> limits_key_handlers = {
             {"max-velocity", [&](const std::string& val_text) {
                 MAX_VELOCITY = std::stoi(val_text);
             }},
         };
 
-        std::unordered_map<std::string, std::function<void(const std::string&)>> handlers;
+        std::unordered_map<std::string, std::function<void (const std::string&)>> handlers;
         if (current_table == "[registers]") {
             handlers = registers_key_handlers;
         } else if (current_table == "[limits]") {
