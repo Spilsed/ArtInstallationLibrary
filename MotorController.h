@@ -11,13 +11,14 @@ class MotorController {
         ~MotorController();
 
         bool connect();
+
         bool isMoving();
 
-        int32_t getCurrentPosition();
-        int32_t getCurrentVelocity();
-        int8_t getCurrentMicrostepResolution();
-        int32_t getInitialVelocity();
-        int32_t getMaxVelocity();
+        int32_t getCurrentPosition() const;
+        int32_t getCurrentVelocity() const;
+        int8_t getCurrentMicrostepResolution() const;
+        int32_t getInitialVelocity() const;
+        int32_t getMaxVelocity() const;
 
         bool setMicrostepResolution(int8_t microstep_resolution);
         bool setAbsolutePosition(int32_t target_position);
@@ -40,10 +41,10 @@ class MotorController {
         static constexpr int INITIAL_VELOCITY_REGISTER_START = 0x0089;
         static constexpr int MAX_VELOCITY_REGISTER_START = 0x008A;
 
-        bool readFlag(int address, bool &value);
-        bool read8BitRegister(int address, int8_t &value);
+        bool readFlag(int address, bool &value) const;
+        bool read8BitRegister(int address, int8_t &value) const;
         bool write8BitRegister(int address, int8_t value);
-        bool read32BitRegister(int address, int32_t &value);
+        bool read32BitRegister(int address, int32_t &value) const;
         bool write32BitRegister(int address, int32_t value);
         void logError(const std::string &message) const;
 };

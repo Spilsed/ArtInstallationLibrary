@@ -41,7 +41,7 @@ bool MotorController::connect() {
     return true;
 }
 
-bool MotorController::readFlag(int address, bool &value) {
+bool MotorController::readFlag(int address, bool &value) const {
     if (!ctx_) {
         logError("Cannot read flag: Not connected");
         return false;
@@ -59,7 +59,7 @@ bool MotorController::readFlag(int address, bool &value) {
     return true;
 }
 
-bool MotorController::read8BitRegister(int address, int8_t &value) {
+bool MotorController::read8BitRegister(int address, int8_t &value) const {
     if (!ctx_) {
         logError("Cannot read: Not connected");
         return false;
@@ -97,7 +97,7 @@ bool MotorController::write8BitRegister(int address, int8_t value) {
     return true;
 }
 
-bool MotorController::read32BitRegister(int address, int32_t &value) {
+bool MotorController::read32BitRegister(int address, int32_t &value) const {
     if (!ctx_) {
         logError("Cannot read: Not connected");
         return false;
@@ -146,7 +146,7 @@ bool MotorController::isMoving() {
     return flag;
 }
 
-int32_t MotorController::getCurrentPosition() {
+int32_t MotorController::getCurrentPosition() const {
     int32_t current_position;
 
     if (read32BitRegister(ABS_POSITION_REGISTER_START, current_position)) {
@@ -156,7 +156,7 @@ int32_t MotorController::getCurrentPosition() {
     }
 }
 
-int32_t MotorController::getCurrentVelocity() {
+int32_t MotorController::getCurrentVelocity() const {
     int32_t current_velocity;
 
     if (read32BitRegister(READ_AXIS_VELOCITY_START, current_velocity)) {
@@ -166,7 +166,7 @@ int32_t MotorController::getCurrentVelocity() {
     }
 }
 
-int8_t MotorController::getCurrentMicrostepResolution() {
+int8_t MotorController::getCurrentMicrostepResolution() const {
     int8_t current_microstep_resolution;
 
     if (read8BitRegister(MICROSTEP_RESOLUTION_ADDRESS, current_microstep_resolution)) {
@@ -176,7 +176,7 @@ int8_t MotorController::getCurrentMicrostepResolution() {
     }
 }
 
-int32_t MotorController::getInitialVelocity() {
+int32_t MotorController::getInitialVelocity() const {
     int32_t initial_velocity;
 
     if (read32BitRegister(INITIAL_VELOCITY_REGISTER_START, initial_velocity)) {
@@ -186,7 +186,7 @@ int32_t MotorController::getInitialVelocity() {
     }
 }
 
-int32_t MotorController::getMaxVelocity() {
+int32_t MotorController::getMaxVelocity() const {
     int32_t max_velocity;
 
     if (read32BitRegister(MAX_VELOCITY_REGISTER_START, max_velocity)) {
