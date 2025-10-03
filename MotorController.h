@@ -12,6 +12,10 @@ class MotorController {
 
         bool connect();
         bool isMoving();
+
+        int32_t getCurrentPosition();
+        int32_t getCurrentVelocity();
+
         bool setAbsolutePosition(int32_t target_position);
         bool setInitialVelocity(int32_t inital_velocity);
         bool setMaxVelocity(int32_t max_velocity);
@@ -21,6 +25,8 @@ class MotorController {
         std::string ip_address_;
         int port_;
         int slave_id_;
+
+        static constexpr int READ_AXIS_VELOCITY_START = 0x0085;
 
         static constexpr int MOVING_FLAG_ADDRESS = 0x004A;
         static constexpr int ABS_POSITION_REGISTER_START = 0x0057;

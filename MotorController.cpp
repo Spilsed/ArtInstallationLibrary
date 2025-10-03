@@ -100,6 +100,26 @@ bool MotorController::isMoving() {
     return (status[0] == 1);
 }
 
+int32_t MotorController::getCurrentPosition() {
+    int32_t current_position;
+
+    if (read32BitRegister(ABS_POSITION_REGISTER_START, current_position)) {
+        return current_position;
+    } else {
+        return 0;
+    }
+}
+
+int32_t MotorController::getCurrentVelocity() {
+    int32_t current_velocity;
+
+    if (read32BitRegister(READ_AXIS_VELOCITY_START, current_velocity)) {
+        return current_velocity;
+    } else {
+        return 0;
+    }
+}
+
 bool MotorController::setAbsolutePosition(int32_t target_position) {
     std::cout << "[INFO] Setting target position to: " << target_position << std::endl;
     return write32BitRegister(ABS_POSITION_REGISTER_START, target_position);
