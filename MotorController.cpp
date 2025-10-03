@@ -139,21 +139,11 @@ bool MotorController::write32BitRegister(int address, int32_t value) {
 }
 
 bool MotorController::isMoving() {
-    if (!ctx_) {
-        logError("Cannot check status: Not connected");
-        return false;
-    }
+    bool flag;
+    
+    readFlag(MOVING_FLAG_ADDRESS, flag);
 
-    uint8_t status[1];
-
-    int rc = modbus_read_input_bits(ctx_, MOVING_FLAG_ADDRESS, 1, status);
-
-    if (rc == -1) {
-        logError("Failed to read Busy Flag status");
-        return false;
-    }
-
-    return (status[0] == 1);
+    return flag;
 }
 
 int32_t MotorController::getCurrentPosition() {
