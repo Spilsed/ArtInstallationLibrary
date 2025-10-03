@@ -158,6 +158,16 @@ int32_t MotorController::getCurrentVelocity() {
     }
 }
 
+int8_t MotorController::getCurrentMicrostepResolution() {
+    int8_t current_microstep_resolution;
+
+    if (read8BitRegister(MICROSTEP_RESOLUTION_ADDRESS, current_microstep_resolution)) {
+        return current_microstep_resolution;
+    } else {
+        return 0;
+    }
+}
+
 int32_t MotorController::getInitialVelocity() {
     int32_t initial_velocity;
 
@@ -176,6 +186,11 @@ int32_t MotorController::getMaxVelocity() {
     } else {
         return 0;
     }
+}
+
+bool MotorController::setMicrostepResolution(int8_t microstep_resolution) {
+    std::cout << "[INFO] Setting microstep resolution to: " << microstep_resolution << std::endl;
+    return write8BitRegister(MICROSTEP_RESOLUTION_ADDRESS, microstep_resolution);
 }
 
 bool MotorController::setAbsolutePosition(int32_t target_position) {
