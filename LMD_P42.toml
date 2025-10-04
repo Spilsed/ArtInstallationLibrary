@@ -3,7 +3,7 @@ read-axis-velocity = 0x0085
 
 microstep-resolution = 0x0048
 moving-flag = 0x004A
-position = 0x0057
+position = 0x0043
 save-settings = 0x0076
 initial-velocity = 0x0089
 max-velocity = 0x008A
