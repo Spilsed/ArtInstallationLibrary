@@ -372,7 +372,5 @@ void MotorController::logError(std::stringstream &message_stream) const {
 
     if (ctx_) {
         std::cerr << ": " << modbus_strerror(errno) << std::endl;
-    }
-
-    std::cerr << std::endl;
+    };
 }
