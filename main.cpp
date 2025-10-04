@@ -9,9 +9,12 @@ int main() {
         std::cerr << "Application exited due to failed connection" << std::endl;
         return 1;
     }
-
-    int32_t pos_1 = 1000;
+    
+    int32_t pos_1;
     int32_t pos_2 = 0;
+
+    std::cout << "Enter rotational amount: ";
+    std::cin >> pos_1;
 
     if (motor.setAbsolutePosition(pos_1)) {
         std::cout << "Successfully commanded move to " << pos_1 << std::endl << "Waiting for move to complete..." << std::endl;
