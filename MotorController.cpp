@@ -20,7 +20,7 @@ MotorController::~MotorController() {
         modbus_free(ctx_);
 
         ctx_ = nullptr;
-        std::cout << "[INFO] Modbux Connection Closed" << std::endl;
+        std::cout << INFO_PREFIX << " Modbux Connection Closed" << std::endl;
     }
 }
 
@@ -34,7 +34,7 @@ bool MotorController::connect() {
 
     modbus_set_slave(ctx_, slave_id_);
 
-    std::cout << "[INFO] Attemtping to connect to " << ip_address_ << ":" << port_ << std::endl;
+    std::cout << INFO_PREFIX << " Attemtping to connect to " << ip_address_ << ":" << port_ << std::endl;
 
     if (modbus_connect(ctx_) == -1) {
         logError("Modbus connection failed");
@@ -43,7 +43,7 @@ bool MotorController::connect() {
         return false;
     }
 
-    std::cout << "[INFO] Successfully connected to motor" << std::endl;
+    std::cout << INFO_PREFIX << " Successfully connected to motor" << std::endl;
     return true;
 }
 
@@ -116,7 +116,7 @@ bool MotorController::loadProfile(const std::string &profile_path) {
         if (it != handlers.end()) {
             it->second(text);
         } else {
-            std::cerr << "[Warning] Unknown configuration key: " << current_key << std::endl;
+            std::cerr << WARNING_PREFIX << " Unknown configuration key: " << current_key << std::endl;
         }
 
         current_key = "";
@@ -281,12 +281,12 @@ int32_t MotorController::getMaxVelocity() const {
 }
 
 bool MotorController::setMicrostepResolution(int8_t microstep_resolution) {
-    std::cout << "[INFO] Setting microstep resolution to: " << microstep_resolution << std::endl;
+    std::cout << INFO_PREFIX << " Setting microstep resolution to: " << microstep_resolution << std::endl;
     return write8BitRegister(MICROSTEP_RESOLUTION_ADDRESS, microstep_resolution);
 }
 
 bool MotorController::setAbsolutePosition(int32_t target_position) {
-    std::cout << "[INFO] Setting target position to: " << target_position << std::endl;
+    std::cout << INFO_PREFIX << " Setting target position to: " << target_position << std::endl;
     return write32BitRegister(ABS_POSITION_REGISTER_START, target_position);
 }
 
@@ -296,7 +296,7 @@ bool MotorController::saveSettings() {
         return false;
     }
 
-    std::cout << "[INFO] Saving all parameters" << std::endl;
+    std::cout << INFO_PREFIX << " Saving all parameters" << std::endl;
 
     int rc = modbus_write_register(ctx_, SAVE_SETTINGS_REGISTER, 1);
 
@@ -305,13 +305,13 @@ bool MotorController::saveSettings() {
         return false;
     }
 
-    std::cout << "[INFO] Save command successfuly" << std::endl;
+    std::cout << INFO_PREFIX << " Save command successfuly" << std::endl;
 
     return true;
 }
 
 bool MotorController::setInitialVelocity(int32_t initial_velocity) {
-    std::cout << "[INFO] Setting initial velocity to: " << initial_velocity << std::endl;
+    std::cout << INFO_PREFIX << " Setting initial velocity to: " << initial_velocity << std::endl;
 
     int32_t current_max_velocity = getMaxVelocity();
 
@@ -332,7 +332,7 @@ bool MotorController::setInitialVelocity(int32_t initial_velocity) {
 }
 
 bool MotorController::setMaxVelocity(int32_t max_velocity) {
-    std::cout << "[INFO] Setting initial velocity to: " << max_velocity << std::endl;
+    std::cout << INFO_PREFIX << " Setting initial velocity to: " << max_velocity << std::endl;
 
     int32_t current_initial_velocity = getInitialVelocity();
 
@@ -368,7 +368,7 @@ void MotorController::logError(std::stringstream &message_stream) const {
     std::string stream_string;
     message_stream >> stream_string;
 
-    std::cerr << "[ERROR] " << stream_string;
+    std::cerr << ERROR_PREFIX << " " << stream_string;
 
     if (ctx_) {
         std::cerr << ": " << modbus_strerror(errno) << std::endl;

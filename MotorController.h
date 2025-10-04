@@ -55,6 +55,10 @@ class MotorController {
 
         void logError(const std::string &message) const;
         void logError(std::stringstream &message_stream) const;
+
+        const std::string INFO_PREFIX = "\x1b[36m[INFO]\x1b[0m";
+        const std::string WARNING_PREFIX = "\x1b[33m[WARNING]\x1b[0m";
+        const std::string ERROR_PREFIX = "\x1b[31;1m[ERROR]\x1b[0m";
 };
 
 #endif
