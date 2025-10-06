@@ -355,20 +355,18 @@ bool MotorController::setMaxVelocity(int32_t max_velocity) {
 void MotorController::logError(const std::string &message) const {
     std::stringstream stream;
 
-    if (ctx_) {
-        stream << message << ": " << modbus_strerror(errno) << std::endl;
-    } else {
-        stream << message << std::endl;
-    }
+    stream << message << std::endl;
 
     logError(stream);
 }
 
 void MotorController::logError(std::stringstream &message_stream) const {
     std::string stream_string;
-    message_stream >> stream_string;
 
-    std::cerr << ERROR_PREFIX << " " << stream_string;
+    std::cerr << ERROR_PREFIX;
+    while (message_stream >> stream_string) {
+        std::cerr << " " << stream_string;
+    }
 
     if (ctx_) {
         std::cerr << ": " << modbus_strerror(errno) << std::endl;
