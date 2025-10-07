@@ -209,8 +209,8 @@ bool MotorController::write32BitRegister(int address, int32_t value) {
     uint16_t data[2];
 
     // Split 32-bit integer into two 16-bit values (big endian)
-    data[0] = (uint16_t)(value >> 16);
-    data[1] = (uint16_t)value;
+    data[0] = (uint16_t)(value);
+    data[1] = (uint16_t)(value >> 16);
 
     int rc = modbus_write_registers(ctx_, address, 2, data);
 
