@@ -1,6 +1,6 @@
 CXX := g++
 CXXFLAGS := -Wall -Wextra -std=c++17 -pedantic -g
-LDFLAGS := -lmodbus
+LDFLAGS := -lmodbus -lgpiodcxx
 
 BUILD_DIR := build
 
