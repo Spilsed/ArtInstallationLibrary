@@ -1,10 +1,11 @@
-#include "MotorController.h"
 #include <iostream>
 #include <sstream> 
 #include <fstream>
 #include <unordered_map>
 #include <functional>
 #include <errno.h>
+
+#include "MotorController.h"
 
 MotorController::MotorController(const std::string &profile_path, const std::string &ip_address, int port, int slave_id) {
     ip_address_ = ip_address;
@@ -132,7 +133,9 @@ bool MotorController::readFlag(int address, bool &value) const {
     }
 
     uint8_t status[1];
+    std::cout << address << " -- err: ";
     int rc = modbus_read_input_bits(ctx_, address, 1, status);
+    std::cout << rc << std::endl;
 
     if (rc == -1) {
         logError("Failed to read flag status");
@@ -332,7 +335,7 @@ bool MotorController::setInitialVelocity(int32_t initial_velocity) {
 }
 
 bool MotorController::setMaxVelocity(int32_t max_velocity) {
-    std::cout << INFO_PREFIX << " Setting initial velocity to: " << max_velocity << std::endl;
+    std::cout << INFO_PREFIX << " Setting max velocity to: " << max_velocity << std::endl;
 
     int32_t current_initial_velocity = getInitialVelocity();
 

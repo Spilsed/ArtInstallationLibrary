@@ -9,6 +9,10 @@
 
 class MotorController {
     public:
+        const std::string INFO_PREFIX = "\x1b[36m[INFO]\x1b[0m";
+        const std::string WARNING_PREFIX = "\x1b[33m[WARNING]\x1b[0m";
+        const std::string ERROR_PREFIX = "\x1b[31;1m[ERROR]\x1b[0m";
+
         MotorController(const std::string &profile_path, const std::string &ip_address, int port = 502, int slave_id = 1);
         ~MotorController();
 
@@ -49,16 +53,13 @@ class MotorController {
 
         bool readFlag(int address, bool &value) const;
         bool read8BitRegister(int address, int8_t &value) const;
-        bool write8BitRegister(int address, int8_t value);
         bool read32BitRegister(int address, int32_t &value) const;
+
+        bool write8BitRegister(int address, int8_t value);
         bool write32BitRegister(int address, int32_t value);
 
         void logError(const std::string &message) const;
         void logError(std::stringstream &message_stream) const;
-
-        const std::string INFO_PREFIX = "\x1b[36m[INFO]\x1b[0m";
-        const std::string WARNING_PREFIX = "\x1b[33m[WARNING]\x1b[0m";
-        const std::string ERROR_PREFIX = "\x1b[31;1m[ERROR]\x1b[0m";
 };
 
 #endif
