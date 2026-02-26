@@ -1,10 +1,12 @@
 CXX := g++
 CXXFLAGS := -Wall -Wextra -std=c++17 -pedantic -g
-LDFLAGS := -lmodbus -lgpiodcxx
+LDLIBS := -lmodbus -lgpiodcxx
 
 BUILD_DIR := build
 
-SRCS := main.cpp MotorController.cpp
+SRCS := main.cpp MotorController.cpp StepperController.cpp
+
+HDRS := MotorController.h StepperController.h
 
 OBJS := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 
@@ -16,9 +18,9 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 $(TARGET): $(OBJS) | $(BUILD_DIR)
-	$(CXX) $^ -o $@ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDLIBS)
 
-$(BUILD_DIR)/%.o: %.cpp MotorController.h | $(BUILD_DIR)
+$(BUILD_DIR)/%.o: %.cpp $(HDRS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 run: $(TARGET)
