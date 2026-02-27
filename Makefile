@@ -4,7 +4,7 @@ LDLIBS := -lmodbus -lgpiodcxx
 
 BUILD_DIR := build
 
-SRCS := main.cpp MotorController.cpp StepperController.cpp
+SRCS := main.cpp MotorController.cpp StepperController.cpp MagnetController.cpp
 
 HDRS := MotorController.h StepperController.h
 
