@@ -1,5 +1,4 @@
-#ifndef ___MOTOR_CONTROLLER
-#define ___MOTOR_CONTROLLER
+#pragma once
 
 #include <string>
 #include <cstdint>
@@ -61,5 +60,3 @@ class MotorController {
         void logError(const std::string &message) const;
         void logError(std::stringstream &message_stream) const;
 };
-
-#endif

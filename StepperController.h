@@ -1,5 +1,4 @@
-#ifndef STEPPER_CONTROLLER_H
-#define STEPPER_CONTROLLER_H
+#pragma once
 
 #include <gpiod.hpp>
 #include <string>
@@ -15,5 +14,3 @@ private:
     unsigned int _dir_offset;
     gpiod::line_request _request;
 };
-
-#endif
