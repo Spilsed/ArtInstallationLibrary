@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include <thread>
 #include <chrono>
+#include <math.h>
 
 using namespace std::chrono;
 
@@ -49,8 +50,15 @@ void StepperController::move(int steps, bool clockwise, int delay_us) {
     }
 }
 
-void StepperController::setMicrostep(int value) {
+void StepperController::setMicrostep(short value) {
+    value = value / 200 - 1;
+    short bits[] = {Utils::getBit(value, 1), Utils::getBit(value, 2), Utils::getBit(value, 4), Utils::getBit(value, 8)};
 
+    for (int i = 0; i < 4; i++) {
+        _request.set_value(
+            _microstep_offsets[i], bits[i] == pow(i, 2) ? gpiod::line::value::ACTIVE : gpiod::line::value::INACTIVE
+        );
+    }
 }
 
 void StepperController::setEnabled(bool value) {

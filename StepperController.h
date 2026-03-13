@@ -13,7 +13,7 @@ class StepperController {
             const std::string &chip_path
         );
         void move(int steps, bool clockwise, int delay_us);
-        void setMicrostep(int value);
+        void setMicrostep(short value);
         void setEnabled(bool value);
 
         bool isEnabled();
