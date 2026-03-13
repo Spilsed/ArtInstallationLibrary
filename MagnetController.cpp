@@ -6,7 +6,7 @@ MagnetController::MagnetController(unsigned int pin,
       _pin(pin),
       
       _request(_chip.prepare_request()
-                .set_request_config(gpiod::request_config().set_consumer("stepper_ctrl"))
+                .set_request_config(gpiod::request_config().set_consumer("magnet_ctrl"))
                 .add_line_settings(
                     pin,
                     gpiod::line_settings()
