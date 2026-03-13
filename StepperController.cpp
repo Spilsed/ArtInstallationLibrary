@@ -56,14 +56,14 @@ void StepperController::setMicrostep(short value) {
 
     for (int i = 0; i < 4; i++) {
         _request.set_value(
-            _microstep_offsets[i], bits[i] == pow(i, 2) ? gpiod::line::value::ACTIVE : gpiod::line::value::INACTIVE
+            _microstep_offsets[i], bits[i] == pow(i, 2) ? gpiod::line::value::INACTIVE : gpiod::line::value::ACTIVE
         );
     }
 }
 
 void StepperController::setEnabled(bool value) {
     _enabled = value;
-    _request.set_value(_dir_offset, value ? gpiod::line::value::INACTIVE : gpiod::line::value::ACTIVE);
+    _request.set_value(_dir_offset, value ? gpiod::line::value::ACTIVE : gpiod::line::value::INACTIVE);
 }
 
 bool StepperController::isEnabled() {
