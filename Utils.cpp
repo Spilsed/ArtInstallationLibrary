@@ -6,6 +6,6 @@ namespace Utils {
     }
 
     short getBit(short value, short bit) {
-        return (value & ( bit << bit )) >> bit
+        return (value & ( bit << bit )) >> bit;
     }
 }
