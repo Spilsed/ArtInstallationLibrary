@@ -4,9 +4,9 @@ LDLIBS := -lmodbus -lgpiodcxx
 
 BUILD_DIR := build
 
-SRCS := main.cpp MotorController.cpp StepperController.cpp MagnetController.cpp
+SRCS := main.cpp MotorController.cpp StepperController.cpp MagnetController.cpp LimitSwitch.cpp Utils.cpp
 
-HDRS := MotorController.h StepperController.h
+HDRS := MotorController.h StepperController.h MagnetController.h LimitSwitch.h Utils.h
 
 OBJS := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 
