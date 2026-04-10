@@ -29,7 +29,7 @@ StepperController::StepperController(unsigned int step_pin,
 {}
 
 void StepperController::move(int steps, bool clockwise, int delay_us) {
-    if (steps <= 0) return;
+    if (steps <= 0) clockwise = !clockwise;
 
     _request.set_value(_dir_offset, clockwise ? gpiod::line::value::ACTIVE 
                                               : gpiod::line::value::INACTIVE);
@@ -63,7 +63,7 @@ void StepperController::setMicrostep(short value) {
 
 void StepperController::setEnabled(bool value) {
     _enabled = value;
-    _request.set_value(_dir_offset, value ? gpiod::line::value::ACTIVE : gpiod::line::value::INACTIVE);
+    _request.set_value(_dir_offset, value ? gpiod::line::value::INACTIVE : gpiod::line::value::ACTIVE);
 }
 
 bool StepperController::isEnabled() {
