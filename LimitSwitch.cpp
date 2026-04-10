@@ -11,8 +11,7 @@ LimitSwitch::LimitSwitch(
                 .add_line_settings(
                     pin,
                     gpiod::line_settings()
-                        .set_direction(gpiod::line::direction::OUTPUT)
-                        .set_output_value(gpiod::line::value::INACTIVE)
+                        .set_direction(gpiod::line::direction::INPUT)
                 )
                 .do_request()) 
 {}
