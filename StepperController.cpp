@@ -63,7 +63,7 @@ void StepperController::setMicrostep(short value) {
 
 void StepperController::setEnabled(bool value) {
     _enabled = value;
-    _request.set_value(_dir_offset, value ? gpiod::line::value::INACTIVE : gpiod::line::value::ACTIVE);
+    _request.set_value(_enable_offset, value ? gpiod::line::value::INACTIVE : gpiod::line::value::ACTIVE);
 }
 
 bool StepperController::isEnabled() {
